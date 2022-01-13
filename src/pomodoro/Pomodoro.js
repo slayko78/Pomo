@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
 import { minutesToDuration, secondsToDuration } from "../utils/duration";
-
+import Interface from "./Interface";
+import DisplayArea from "./DisplayArea";
 // These functions are defined outside of the component to ensure they do not have access to state
 // and are, therefore, more likely to be pure.
 
@@ -129,14 +130,14 @@ function Pomodoro() {
     function percentWidth(){
       if(!session){return 0}
       if(session.label==="Focusing"){
-        let currentDuration=session.timeRemaining;
+       // let currentDuration=session.timeRemaining;
         let secondsLeft=focusDuration*60-session.timeRemaining
         let barProgress=100*secondsLeft/(focusDuration*60)
        
         return barProgress
       }
       else{
-        let currentDuration=session.timeRemaining;
+        //let currentDuration=session.timeRemaining;
         let secondsLeft=breakDuration*60-session.timeRemaining
         let barProgress=100*secondsLeft/(breakDuration*60)
         return barProgress
@@ -149,128 +150,30 @@ function Pomodoro() {
     }
   return (
     <div className="pomodoro">
-      <div className="row">
-        <div className="col">
-          <div className="input-group input-group-lg mb-2">
-            <span className="input-group-text" data-testid="duration-focus">
-               Focus Duration: { minutesToDuration(focusDuration)}
-            </span>
-            <div className="input-group-append">
-             
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="decrease-focus"
-                onClick={decreaseFocusDuration}
-              >
-                <span className="oi oi-minus" />
-              </button>
-           
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="increase-focus"
-                onClick={increaseFocusDuration}
-              >
-                <span className="oi oi-plus" />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="float-right">
-            <div className="input-group input-group-lg mb-2">
-              <span className="input-group-text" data-testid="duration-break">
-                Break Duration: {minutesToDuration(breakDuration)}
-              </span>
-              <div className="input-group-append">
-                  <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="decrease-break"
-                  onClick={decreaseBreakDuration}
-                >
-                  <span className="oi oi-minus" />
-                </button>
-              
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="increase-break"
-                  onClick={increaseBreakDuration}
-                >
-                  <span className="oi oi-plus" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <div
-            className="btn-group btn-group-lg mb-2"
-            role="group"
-            aria-label="Timer controls"
-          >
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-testid="play-pause"
-              title="Start or pause timer"
-              onClick={playPause}
-            >
-              <span
-                className={classNames({
-                  oi: true,
-                  "oi-media-play": !isTimerRunning,
-                  "oi-media-pause": isTimerRunning,
-                })}
-              />
-            </button>
-         
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-testid="stop"
-              title="Stop the session"
-              disabled={!isTimerRunning}
-              onClick={stahp}
-            >
-              <span className="oi oi-media-stop" />
-            </button>
-          </div>
-        </div>
-      </div>
-      {!session?"":<div>
-        {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
-        <div className="row mb-2">
-          <div className="col">
-            {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
-            <h2 data-testid="session-title">
-               {session?session.label:""} for {minutesToDuration(duration)} minutes
-            </h2>
-            {/* TODO: Update message below correctly format the time remaining in the current session */}
-            <p className="lead" data-testid="session-sub-title">
-              {session?secondsToDuration(session.timeRemaining):""} remaining
-            </p>
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col">
-            <div className="progress" style={{ height: "20px" }}>
-              <div
-                className="progress-bar"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow={ percentWidth()} // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: percentWidth()+"%" }} // TODO: Increase width % as elapsed time increases
-              />
-            </div>
-          </div>
-        </div>
-      </div>}
+     <Interface
+     focusDuration={focusDuration} 
+     breakDuration={breakDuration}
+     decreaseFocusDuration={decreaseFocusDuration}
+     increaseFocusDuration={increaseFocusDuration} 
+     increaseBreakDuration={increaseBreakDuration}
+     decreaseBreakDuration={decreaseBreakDuration}
+     classNames={classNames}
+     stahp={stahp}
+     playPause={playPause}
+     minutesToDuration={minutesToDuration}
+     isTimerRunning={isTimerRunning}
+     />
+     <DisplayArea
+     secondsToDuration={secondsToDuration}
+     percentWidth={percentWidth}
+     duration={duration}
+     session={session}
+     focusDuration={focusDuration} 
+     breakDuration={breakDuration}
+   
+     minutesToDuration={minutesToDuration}
+     /> 
+      
     </div>
   );
 }
