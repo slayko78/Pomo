@@ -16,6 +16,7 @@ import React from "react";
                 className="btn btn-secondary"
                 data-testid="decrease-focus"
                 onClick={props.decreaseFocusDuration}
+                disabled={props.isTimerRunning}
               >
                 <span className="oi oi-minus" />
               </button>
@@ -25,6 +26,7 @@ import React from "react";
                 className="btn btn-secondary"
                 data-testid="increase-focus"
                 onClick={props.increaseFocusDuration}
+                disabled={props.isTimerRunning}
               >
                 <span className="oi oi-plus" />
               </button>
@@ -43,6 +45,7 @@ import React from "react";
                   className="btn btn-secondary"
                   data-testid="decrease-break"
                   onClick={props.decreaseBreakDuration}
+                  disabled={props.isTimerRunning}
                 >
                   <span className="oi oi-minus" />
                 </button>
@@ -52,6 +55,7 @@ import React from "react";
                   className="btn btn-secondary"
                   data-testid="increase-break"
                   onClick={props.increaseBreakDuration}
+                  disabled={props.isTimerRunning}
                 >
                   <span className="oi oi-plus" />
                 </button>
